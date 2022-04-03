@@ -1,0 +1,70 @@
+---
+title: "Deaths and States"
+author: "Peter Kurrell"
+date: "9/22/2021"
+output: pdf_document
+---
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+data_covid=read.csv("Provisional_COVID-19_Deaths_by_Place_of_Death_and_Age.csv")
+data_covid
+```
+
+```{r}
+covid2 <- select(data_covid, Group, State, Place.of.Death, Age.group, COVID.19.Deaths, Pneumonia.Deaths, Influenza.Deaths, Total.Deaths, HHS.Region)
+covid_filtered <- filter(covid2, Group == "By Total" & Place.of.Death == "Total - All Places of Death" & Age.group == "All Ages", State != "United States", State != "District of Columbia", State != "New York City", State != "Puerto Rico")
+ggplot(data = covid_filtered) +
+  geom_bar(aes(x = State, y = COVID.19.Deaths , fill = factor(HHS.Region)), stat = 'identity') +
+  coord_flip() + 
+  labs(x = "State", y = "Deaths", title = "Total COVID-19 Deaths per State (2020-present)")
+
+```
+#Here we wanted to how the number of Covid Deaths per State. We ended up removing parts of the data set such as New York City to make the data more accurate and to have the graph be less crowded. We can see that the states with large populations such as Texas and California have the largest amount of covid deaths. It is important to note these are raw death totals so smaller states with less covid deaths may have been harder hit proportionally. 
+```{r}
+covid2 <- select(data_covid, Group, State, Place.of.Death, Age.group, COVID.19.Deaths, Pneumonia.Deaths, Influenza.Deaths, Total.Deaths, HHS.Region)
+covid_filtered <- filter(covid2, Group == "By Total" & Place.of.Death == "Total - All Places of Death" & Age.group == "All Ages", State != "United States", State != "District of Columbia", State != "New York City", State != "Puerto Rico")
+ggplot(data = covid_filtered) +
+  geom_bar(aes(x = State, y = Influenza.Deaths, fill = factor(HHS.Region)), stat = 'identity') +
+  coord_flip() + 
+  labs(x = "State", y = "Deaths", title = "Influenza Deaths per State (2020-present)")
+```
+# Here we created a graph to show the total number of influenza deaths per state. It is a common arguement that Covid is no worse than influenza but here we can see that is not the case. The deaths caused by influenza are measured in the hundreds per state where as with Covid, the deaths were measured by the tens of thousands per state.
+```{r}
+covid2 <- select(data_covid, Group, State, Place.of.Death, Age.group, COVID.19.Deaths, Pneumonia.Deaths, Influenza.Deaths, Total.Deaths, HHS.Region)
+covid_filtered <- filter(covid2, Group == "By Total" & Place.of.Death == "Total - All Places of Death" & Age.group == "All Ages", State != "United States", State != "District of Columbia", State != "New York City", State != "Puerto Rico")
+ggplot(data = covid_filtered) +
+  geom_bar(aes(x = State, y = Pneumonia.Deaths, fill = factor(HHS.Region)), stat = 'identity') +
+  coord_flip() + 
+  labs(x = "State", y = "Deaths", title = "Pneumonia Deaths per State (2020-present)")
+```
+#Here we have graphed the number of Pneumonia deaths per state. It is quite similar to the Covid graph. This tracks because covid induced Pneumonia is one of the leading causes of complications and deaths when people are infected with the Covid-19 virus. When looking at the data set Pneumonia deaths are eighty percent of Covid Deaths.
+```{r}
+covid2 <- select(data_covid, Group, State, Place.of.Death, Age.group, COVID.19.Deaths, Pneumonia.Deaths, Influenza.Deaths, Total.Deaths, HHS.Region)
+covid_filtered <- filter(covid2, Group == "By Total" & Place.of.Death == "Total - All Places of Death" & Age.group == "All Ages", State != "United States", State != "District of Columbia", State != "New York City", State != "Puerto Rico")
+ggplot(data = covid_filtered) +
+  geom_bar(aes(x = State, y = Total.Deaths, fill = factor(HHS.Region)), stat = 'identity') +
+  coord_flip() + 
+  labs(x = "State", y = "Deaths", title = "Total Deaths per State (2020-present)")
+```
+#Here we have created a graph of the total number of deaths so that we have a point of reference. The deaths are measured in the hundreds of thousands which is quite alarming.
+
+
+
+
+
+
+
+
+
+
+
+
